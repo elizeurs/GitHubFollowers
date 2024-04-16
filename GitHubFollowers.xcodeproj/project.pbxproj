@@ -12,6 +12,8 @@
 		755B8B7F2BCD8AD400EF3647 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755B8B7E2BCD8AD400EF3647 /* ViewController.swift */; };
 		755B8B842BCD8AD700EF3647 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 755B8B832BCD8AD700EF3647 /* Assets.xcassets */; };
 		755B8B872BCD8AD700EF3647 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 755B8B852BCD8AD700EF3647 /* LaunchScreen.storyboard */; };
+		75F4407B2BCEF1C200E245D2 /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F4407A2BCEF1C200E245D2 /* SearchVC.swift */; };
+		75F4407D2BCEF26100E245D2 /* FavoritesListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F4407C2BCEF26100E245D2 /* FavoritesListVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		755B8B832BCD8AD700EF3647 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		755B8B862BCD8AD700EF3647 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		755B8B882BCD8AD700EF3647 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		75F4407A2BCEF1C200E245D2 /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
+		75F4407C2BCEF26100E245D2 /* FavoritesListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesListVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +64,8 @@
 				755B8B832BCD8AD700EF3647 /* Assets.xcassets */,
 				755B8B852BCD8AD700EF3647 /* LaunchScreen.storyboard */,
 				755B8B882BCD8AD700EF3647 /* Info.plist */,
+				75F4407A2BCEF1C200E245D2 /* SearchVC.swift */,
+				75F4407C2BCEF26100E245D2 /* FavoritesListVC.swift */,
 			);
 			path = GitHubFollowers;
 			sourceTree = "<group>";
@@ -134,7 +140,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75F4407B2BCEF1C200E245D2 /* SearchVC.swift in Sources */,
 				755B8B7F2BCD8AD400EF3647 /* ViewController.swift in Sources */,
+				75F4407D2BCEF26100E245D2 /* FavoritesListVC.swift in Sources */,
 				755B8B7B2BCD8AD400EF3647 /* AppDelegate.swift in Sources */,
 				755B8B7D2BCD8AD400EF3647 /* SceneDelegate.swift in Sources */,
 			);
