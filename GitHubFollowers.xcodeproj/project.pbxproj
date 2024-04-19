@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7501D7442BD0257A0002E201 /* GFButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7501D7432BD0257A0002E201 /* GFButton.swift */; };
 		7501D7462BD030990002E201 /* GFTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7501D7452BD030990002E201 /* GFTextField.swift */; };
+		7557FE7B2BD30E7500571377 /* FollowerListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7557FE7A2BD30E7500571377 /* FollowerListVC.swift */; };
 		755B8B7B2BCD8AD400EF3647 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755B8B7A2BCD8AD400EF3647 /* AppDelegate.swift */; };
 		755B8B7D2BCD8AD400EF3647 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755B8B7C2BCD8AD400EF3647 /* SceneDelegate.swift */; };
 		755B8B7F2BCD8AD400EF3647 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755B8B7E2BCD8AD400EF3647 /* ViewController.swift */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		7501D7432BD0257A0002E201 /* GFButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFButton.swift; sourceTree = "<group>"; };
 		7501D7452BD030990002E201 /* GFTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFTextField.swift; sourceTree = "<group>"; };
+		7557FE7A2BD30E7500571377 /* FollowerListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerListVC.swift; sourceTree = "<group>"; };
 		755B8B772BCD8AD400EF3647 /* GitHubFollowers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubFollowers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		755B8B7A2BCD8AD400EF3647 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		755B8B7C2BCD8AD400EF3647 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				75F4407C2BCEF26100E245D2 /* FavoritesListVC.swift */,
 				7501D7432BD0257A0002E201 /* GFButton.swift */,
 				7501D7452BD030990002E201 /* GFTextField.swift */,
+				7557FE7A2BD30E7500571377 /* FollowerListVC.swift */,
 			);
 			path = GitHubFollowers;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				75F4407B2BCEF1C200E245D2 /* SearchVC.swift in Sources */,
+				7557FE7B2BD30E7500571377 /* FollowerListVC.swift in Sources */,
 				755B8B7F2BCD8AD400EF3647 /* ViewController.swift in Sources */,
 				7501D7442BD0257A0002E201 /* GFButton.swift in Sources */,
 				75F4407D2BCEF26100E245D2 /* FavoritesListVC.swift in Sources */,
