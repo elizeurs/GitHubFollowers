@@ -57,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				755B8B792BCD8AD400EF3647 /* GitHubFollowers */,
+				755B8B7E2BCD8AD400EF3647 /* ViewController.swift */,
 				755B8B782BCD8AD400EF3647 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -72,23 +73,54 @@
 		755B8B792BCD8AD400EF3647 /* GitHubFollowers */ = {
 			isa = PBXGroup;
 			children = (
+				75DE58422BD6FA0D00AB336A /* Extensions */,
+				75DE58432BD6FA1E00AB336A /* Custom Views */,
+				75DE58442BD6FA2900AB336A /* Screens */,
+				75DE58452BD6FA3300AB336A /* Support */,
+			);
+			path = GitHubFollowers;
+			sourceTree = "<group>";
+		};
+		75DE58422BD6FA0D00AB336A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				75D6154E2BD5FB0400DC6AB7 /* UIViewController+Ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		75DE58432BD6FA1E00AB336A /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				756CEA122BD43EC600FAE87E /* GFAlertVC.swift */,
+				7501D7432BD0257A0002E201 /* GFButton.swift */,
+				7501D7452BD030990002E201 /* GFTextField.swift */,
+				756CEA0E2BD4322A00FAE87E /* GFTitleLabel.swift */,
+				756CEA102BD435CC00FAE87E /* GFBodyLabel.swift */,
+			);
+			path = "Custom Views";
+			sourceTree = "<group>";
+		};
+		75DE58442BD6FA2900AB336A /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				75F4407A2BCEF1C200E245D2 /* SearchVC.swift */,
+				75F4407C2BCEF26100E245D2 /* FavoritesListVC.swift */,
+				7557FE7A2BD30E7500571377 /* FollowerListVC.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		75DE58452BD6FA3300AB336A /* Support */ = {
+			isa = PBXGroup;
+			children = (
 				755B8B7A2BCD8AD400EF3647 /* AppDelegate.swift */,
 				755B8B7C2BCD8AD400EF3647 /* SceneDelegate.swift */,
-				755B8B7E2BCD8AD400EF3647 /* ViewController.swift */,
 				755B8B832BCD8AD700EF3647 /* Assets.xcassets */,
 				755B8B852BCD8AD700EF3647 /* LaunchScreen.storyboard */,
 				755B8B882BCD8AD700EF3647 /* Info.plist */,
-				75F4407A2BCEF1C200E245D2 /* SearchVC.swift */,
-				75F4407C2BCEF26100E245D2 /* FavoritesListVC.swift */,
-				7501D7432BD0257A0002E201 /* GFButton.swift */,
-				7501D7452BD030990002E201 /* GFTextField.swift */,
-				7557FE7A2BD30E7500571377 /* FollowerListVC.swift */,
-				756CEA0E2BD4322A00FAE87E /* GFTitleLabel.swift */,
-				756CEA102BD435CC00FAE87E /* GFBodyLabel.swift */,
-				756CEA122BD43EC600FAE87E /* GFAlertVC.swift */,
-				75D6154E2BD5FB0400DC6AB7 /* UIViewController+Ext.swift */,
 			);
-			path = GitHubFollowers;
+			path = Support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -309,11 +341,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_USE_OPTIMIZATION_PROFILE = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = VM55LWG8PP;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = GitHubFollowers/Info.plist;
+				INFOPLIST_FILE = GitHubFollowers/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -336,11 +369,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_USE_OPTIMIZATION_PROFILE = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = VM55LWG8PP;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = GitHubFollowers/Info.plist;
+				INFOPLIST_FILE = GitHubFollowers/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
