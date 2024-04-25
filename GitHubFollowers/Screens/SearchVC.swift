@@ -28,7 +28,8 @@ class SearchVC: UIViewController {
   // it happens every time the view will appear.
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    navigationController?.isNavigationBarHidden = true
+  // solve NavBar issue between FollowerListVC and SearchVC
+    navigationController?.setNavigationBarHidden(true, animated: true)
   }
   
   func createDismissKeyboardTapGesture() {
