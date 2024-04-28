@@ -28,7 +28,7 @@ class SearchVC: UIViewController {
   // it happens every time the view will appear.
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-  // solve NavBar issue between FollowerListVC and SearchVC
+    // solve NavBar issue, when you try to swipe back(left to right) from FollowerListVC to SearchVC.
     navigationController?.setNavigationBarHidden(true, animated: true)
   }
   
