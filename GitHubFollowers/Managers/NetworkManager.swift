@@ -17,11 +17,21 @@ class NetworkManager {
   private init() {}
   
   // completion handler and closure are the same thing.
-  func getFollowers(for username: String, page: Int, completed: @escaping ([Follower]?, ErrorMessage?) -> Void) {
+  
+  // the old way
+//  func getFollowers(for username: String, page: Int, completed: @escaping ([Follower]?, ErrorMessage?) -> Void) {
+  
+  // the new way, using enum Result
+  // < > - indicates that it takes in a generic.
+  // can use the default Error or our custom GFError.
+    func getFollowers(for username: String, page: Int, completed: @escaping (Result<[Follower], GFError>) -> Void) {
     let endpoint = baseURL + "\(username)/followers?per_page=100&page=\(page)"
     
     guard let url = URL(string: endpoint) else {
-      completed(nil, .invalidUsername)
+//      the old way
+//      completed(nil, .invalidUsername)
+//      the new way, with Result
+      completed(.failure(.invalidUsername))
       return
     }
     
@@ -31,7 +41,9 @@ class NetworkManager {
       // handle error
       if let _ = error {
         // every time we call "completed", we got to pass in two things, either an array of followers or an error message.
-        completed(nil, .unableToComplete)
+//        old way
+//        completed(nil, .unableToComplete)
+        completed(.failure(.unableToComplete))
         // return - if we get the error, we want to return out, like we're done. we don't want to do any more of the function here.
         return
       }
@@ -44,13 +56,14 @@ class NetworkManager {
        */
       guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
         // nil for the array of followers.
-          completed(nil, .invalidResponse)
+        completed(.failure(.unableToComplete))
         return
       }
       
       guard let data = data  else {
         // nil for the array of followers.
-          completed(nil, .invalidData)
+//          completed(nil, .invalidData)
+        completed(.failure(.invalidData))
         return
       }
       
@@ -65,9 +78,9 @@ class NetworkManager {
         decoder.keyDecodingStrategy = .convertFromSnakeCase
         let followers = try decoder.decode([Follower].self, from: data)
         // nil - no error
-        completed(followers, nil)
+        completed(.success(followers))
       } catch {
-        completed(nil, .invalidData)
+        completed(.failure(.invalidData))
 //        completed(nil, "The data receivedd from the server was invalid. Please try again.")
       }
     }
