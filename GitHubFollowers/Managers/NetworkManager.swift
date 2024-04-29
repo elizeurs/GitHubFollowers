@@ -17,11 +17,11 @@ class NetworkManager {
   private init() {}
   
   // completion handler and closure are the same thing.
-  func getFollowers(for username: String, page: Int, completed: @escaping ([Follower]?, String?) -> Void) {
+  func getFollowers(for username: String, page: Int, completed: @escaping ([Follower]?, ErrorMessage?) -> Void) {
     let endpoint = baseURL + "\(username)/followers?per_page=100&page=\(page)"
     
     guard let url = URL(string: endpoint) else {
-      completed(nil, "This username createdd an invalidd request. Please try again.")
+      completed(nil, .invalidUsername)
       return
     }
     
@@ -31,7 +31,7 @@ class NetworkManager {
       // handle error
       if let _ = error {
         // every time we call "completed", we got to pass in two things, either an array of followers or an error message.
-        completed(nil, "Unable to complete your request. Please check your internet connection")
+        completed(nil, .unableToComplete)
         // return - if we get the error, we want to return out, like we're done. we don't want to do any more of the function here.
         return
       }
@@ -44,13 +44,13 @@ class NetworkManager {
        */
       guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
         // nil for the array of followers.
-        completed(nil, " Invalid response from the server. Please try again.")
+          completed(nil, .invalidResponse)
         return
       }
       
       guard let data = data  else {
         // nil for the array of followers.
-        completed(nil, "The data receivedd from the server was invalid. Please try again.")
+          completed(nil, .invalidData)
         return
       }
       
@@ -67,7 +67,8 @@ class NetworkManager {
         // nil - no error
         completed(followers, nil)
       } catch {
-        completed(nil, "The data receivedd from the server was invalid. Please try again.")
+        completed(nil, .invalidData)
+//        completed(nil, "The data receivedd from the server was invalid. Please try again.")
       }
     }
     
