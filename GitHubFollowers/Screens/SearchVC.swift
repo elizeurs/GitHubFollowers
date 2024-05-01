@@ -14,16 +14,16 @@ class SearchVC: UIViewController {
   let callToActionButton = GFButton(backgroundColor: .systemGreen, title: "Get Followers")
   
   var isUsernameEntered: Bool { return !usernameTextField.text!.isEmpty }
-
+  
   // only gets called the first time the view loads.
-    override func viewDidLoad() {
-        super.viewDidLoad()
-      view.backgroundColor = .systemBackground
-      configureLogoImageView()
-      configureTextField()
-      configureCallToActionButton()
-      createDismissKeyboardTapGesture()
-    }
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    view.backgroundColor = .systemBackground
+    configureLogoImageView()
+    configureTextField()
+    configureCallToActionButton()
+    createDismissKeyboardTapGesture()
+  }
   
   // it happens every time the view will appear.
   override func viewWillAppear(_ animated: Bool) {
@@ -61,10 +61,10 @@ class SearchVC: UIViewController {
       logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       logoImageView.heightAnchor.constraint(equalToConstant: 200),
       logoImageView.widthAnchor.constraint(equalToConstant: 200)
-
+      
     ])
   }
-
+  
   func configureTextField() {
     view.addSubview(usernameTextField)
     // self - SearchVC

@@ -9,6 +9,7 @@ import UIKit
 
 class FollowerCell: UICollectionViewCell {
   
+  // static - because of that, i can access it on FollowerListVC
   static let reuseID = "FollowerCell"
   // .zero - we're going to be adjusting all this via constraints.
   let avatarImageView   = GFAvatarImageView(frame: .zero)
