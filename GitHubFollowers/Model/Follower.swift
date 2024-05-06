@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Follower: Codable {
+// Hashable - to conforme with ICollectionViewDiffableDataSource.
+struct Follower: Codable, Hashable {
   var login: String
   /* avatar_url(original json response) - Codable automatically(?) converts snake case to camel case, for swift best practices. it didn't work, if you use, for instance, avatarNameUrl.
   
