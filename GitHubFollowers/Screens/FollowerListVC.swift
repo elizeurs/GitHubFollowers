@@ -7,9 +7,7 @@
 
 import UIKit
 
-enum Section {
-  case main
-}
+enum Section { case main }
 
 class FollowerListVC: UIViewController {
   
@@ -39,37 +37,27 @@ class FollowerListVC: UIViewController {
   }
   
   func configureCollectionView() {
-    collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createThreeColumnFlowLayout())
+    collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: view))
     view.addSubview(collectionView)
     collectionView.backgroundColor = .systemBackground
     collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseID)
   }
   
-  func createThreeColumnFlowLayout() -> UICollectionViewFlowLayout {
-    let width                         = view.bounds.width
-    let padding: CGFloat              = 12
-    let minimunItemSpacing: CGFloat   = 10
-    let availableWidth                = width - (padding * 2) - (minimunItemSpacing * 2)
-    let itemWidth                     = availableWidth / 3
-    
-    let flowLayout                    = UICollectionViewFlowLayout()
-    flowLayout.sectionInset           = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
-    flowLayout.itemSize               = CGSize(width: itemWidth, height: itemWidth + 40)
-    
-    return flowLayout
-  }
-  
   func getFollowers() {
     // new way
-    NetworkManager.shared.getFollowers(for: username, page: 1) { result in
+    /*ARC:
+     [weak self] - Make self weak and anytime we make self weak, it's gonna be an optional.
+     adding (?) will be the fix for this or unwrap the optional self (guard let self = self else {return).
+     */
+    NetworkManager.shared.getFollowers(for: username, page: 1) { [weak self] result in
       
       switch result {
       case .success(let followers):
-        self.followers = followers
-        self.updateData()
+        self?.followers = followers
+        self?.updateData()
 //        print(followers)
       case .failure(let error):
-        self.presentGFAlertOnMainThread(title: "Bad stuff happend", message: error.rawValue, buttonTitle: "Ok")
+        self?.presentGFAlertOnMainThread(title: "Bad stuff happend", message: error.rawValue, buttonTitle: "Ok")
       }
     }
   }
