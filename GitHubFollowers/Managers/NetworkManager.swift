@@ -5,13 +5,16 @@
 //  Created by Elizeu RS on 26/04/24.
 //
 
-import Foundation
+import UIKit
 
 class NetworkManager {
   // singleton
   // static - every network manager will have that variable on it.
-  static let shared   = NetworkManager()
-  let baseURL         = "https://api.github.com/users/"
+  static let shared           = NetworkManager()
+  // make it private, that the only one we can access here is cache.
+  private let baseURL         = "https://api.github.com/users/"
+  // creating the image cache.
+  let cache                   = NSCache<NSString, UIImage>()
   
   // make it private, so it can only be called here.
   private init() {}

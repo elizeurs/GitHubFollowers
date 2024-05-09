@@ -50,14 +50,16 @@ class FollowerListVC: UIViewController {
      adding (?) will be the fix for this or unwrap the optional self (guard let self = self else {return).
      */
     NetworkManager.shared.getFollowers(for: username, page: 1) { [weak self] result in
+      // unwrapping the optional self
+      guard let self = self else { return }
       
       switch result {
       case .success(let followers):
-        self?.followers = followers
-        self?.updateData()
+        self.followers = followers
+        self.updateData()
 //        print(followers)
       case .failure(let error):
-        self?.presentGFAlertOnMainThread(title: "Bad stuff happend", message: error.rawValue, buttonTitle: "Ok")
+        self.presentGFAlertOnMainThread(title: "Bad stuff happend", message: error.rawValue, buttonTitle: "Ok")
       }
     }
   }

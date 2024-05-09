@@ -5,7 +5,7 @@
 //  Created by Elizeu RS on 07/05/24.
 //
 
-// UIKit brings Foundation.
+// UIKit brings Foundation. if you're importing both of them, that's redundant.
 import UIKit
 
 struct UIHelper {
