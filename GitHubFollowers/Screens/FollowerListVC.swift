@@ -13,6 +13,8 @@ class FollowerListVC: UIViewController {
   
   var username: String!
   var followers: [Follower] = []
+  var page = 1
+  var hasMoreFollowers = true
   
   var collectionView: UICollectionView!
   var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
@@ -21,7 +23,7 @@ class FollowerListVC: UIViewController {
     super.viewDidLoad()
     configureViewController()
     configureCollectionView()
-    getFollowers()
+    getFollowers(username: username, page: page)
     configureDataSource()
   }
   
@@ -39,23 +41,26 @@ class FollowerListVC: UIViewController {
   func configureCollectionView() {
     collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.createThreeColumnFlowLayout(in: view))
     view.addSubview(collectionView)
+    collectionView.delegate = self
     collectionView.backgroundColor = .systemBackground
     collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseID)
   }
   
-  func getFollowers() {
+  func getFollowers(username: String, page: Int) {
     // new way
     /*ARC:
      [weak self] - Make self weak and anytime we make self weak, it's gonna be an optional.
      adding (?) will be the fix for this or unwrap the optional self (guard let self = self else {return).
      */
-    NetworkManager.shared.getFollowers(for: username, page: 1) { [weak self] result in
+    NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] result in
       // unwrapping the optional self
       guard let self = self else { return }
       
       switch result {
       case .success(let followers):
-        self.followers = followers
+        if followers.count < 100 { self.hasMoreFollowers = false }
+        // so it keeps appending more followers to the list.
+        self.followers.append(contentsOf: followers)
         self.updateData()
 //        print(followers)
       case .failure(let error):
@@ -95,4 +100,24 @@ class FollowerListVC: UIViewController {
     DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
   }
   
+}
+
+extension FollowerListVC: UICollectionViewDelegate {
+  
+  // for pagination
+  func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    let offsetY = scrollView.contentOffset.y
+    let contentHeight = scrollView.contentSize.height
+    let height = scrollView.frame.size.height
+    
+    if offsetY >  contentHeight - height {
+      guard hasMoreFollowers else { return }
+      page += 1
+      getFollowers(username: username, page: page)
+    }
+    
+//    print("OffsetY = \(offsetY)")
+//    print("ContentHeight = \(contentHeight)")
+//    print("Height = \(height)")
+  }
 }
