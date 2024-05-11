@@ -52,9 +52,13 @@ class FollowerListVC: UIViewController {
      [weak self] - Make self weak and anytime we make self weak, it's gonna be an optional.
      adding (?) will be the fix for this or unwrap the optional self (guard let self = self else {return).
      */
+    showLoadingView()
     NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] result in
+      // use #warnig("") instead of to-dos, in order to come back and fix this.
+      // #warning("Call Dismiss") - done already.
       // unwrapping the optional self
       guard let self = self else { return }
+      self.dismissLoadingView()
       
       switch result {
       case .success(let followers):
