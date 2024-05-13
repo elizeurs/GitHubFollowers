@@ -13,6 +13,7 @@ class FollowerListVC: UIViewController {
   
   var username: String!
   var followers: [Follower] = []
+  var filteredFollowers: [Follower] = []
   var page = 1
   var hasMoreFollowers = true
   
@@ -22,6 +23,7 @@ class FollowerListVC: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureViewController()
+    configureSearchController()
     configureCollectionView()
     getFollowers(username: username, page: page)
     configureDataSource()
@@ -44,6 +46,16 @@ class FollowerListVC: UIViewController {
     collectionView.delegate = self
     collectionView.backgroundColor = .systemBackground
     collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseID)
+  }
+  
+  func configureSearchController() {
+    let searchController                                    = UISearchController()
+    searchController.searchResultsUpdater                   = self
+    searchController.searchBar.delegate                     = self
+    searchController.searchBar.placeholder                  = "Search for a username"
+    // to avoid that faint black overlay
+    searchController.obscuresBackgroundDuringPresentation   = false
+    navigationItem.searchController                         = searchController
   }
   
   func getFollowers(username: String, page: Int) {
@@ -76,7 +88,8 @@ class FollowerListVC: UIViewController {
           // return - if we're showing the empty state view, we want to get out of here, like, we want nothing else to execute. we don't want to call updateData, if that happens.
           return
         }
-        self.updateData()
+        self.updateData(on: self.followers)
+        
 //        print(followers)
       case .failure(let error):
         self.presentGFAlertOnMainThread(title: "Bad stuff happend", message: error.rawValue, buttonTitle: "Ok")
@@ -107,7 +120,7 @@ class FollowerListVC: UIViewController {
     })
   }
   
-  func updateData() {
+  func updateData(on followers: [Follower]) {
     var snapshot = NSDiffableDataSourceSnapshot<Section, Follower>()
     // snapshot is the key for UICollectionViewDiffableDataSource. you have to pass those sections and items.
     snapshot.appendSections([.main])
@@ -134,5 +147,24 @@ extension FollowerListVC: UICollectionViewDelegate {
 //    print("OffsetY = \(offsetY)")
 //    print("ContentHeight = \(contentHeight)")
 //    print("Height = \(height)")
+  }
+}
+
+extension FollowerListVC: UISearchResultsUpdating, UISearchBarDelegate {
+  
+  func updateSearchResults(for searchController: UISearchController) {
+    // whatever that text is, that is our filter.
+    guard let filter = searchController.searchBar.text, !filter.isEmpty else { return }
+    
+    /* filter/map/reduce.
+    $0 - represents an item.
+     */
+    filteredFollowers = followers.filter { $0.login.lowercased().contains(filter.lowercased())}
+    updateData(on: filteredFollowers)
+  }
+  
+  func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//    print("cancel tapped")
+    updateData(on: followers)
   }
 }
