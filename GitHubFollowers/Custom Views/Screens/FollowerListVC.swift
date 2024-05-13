@@ -65,6 +65,17 @@ class FollowerListVC: UIViewController {
         if followers.count < 100 { self.hasMoreFollowers = false }
         // so it keeps appending more followers to the list.
         self.followers.append(contentsOf: followers)
+        
+        if self.followers.isEmpty {
+          let message = "This user doesn't have any followers. Go follow them 😀."
+          /*
+           self - we're in a closure.
+           we are on a background thread. anytime we're updating or presenting an UI, we have to go on the main queue here.
+          */
+          DispatchQueue.main.async { self.showEmptyStateView(with: message, in: self.view) }
+          // return - if we're showing the empty state view, we want to get out of here, like, we want nothing else to execute. we don't want to call updateData, if that happens.
+          return
+        }
         self.updateData()
 //        print(followers)
       case .failure(let error):
