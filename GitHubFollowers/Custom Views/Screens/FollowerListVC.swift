@@ -180,4 +180,5 @@ extension FollowerListVC: UISearchResultsUpdating, UISearchBarDelegate {
 //    print("cancel tapped")
     updateData(on: followers)
   }
+  
 }

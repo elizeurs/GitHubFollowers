@@ -8,20 +8,22 @@
 import Foundation
 
 struct User: Codable {
-  var login: String
-  var avatarUrl: String
+  // the user can't alter any of the data, so in this case, these should be let
+  let login: String
+  let avatarUrl: String
   // name - that's optional, you don't have to put that. when it does come back null, we'll be able to handle that.
+  // if can be nil, those have to be a var. so anything that's not an optional, we're going to make a let
   var name: String?
   // location - optional too. they might not put their location.
   var location: String?
   var bio: String?
   // not optional, 'cause, if they don't have any, it's going to be a zero, so it's always going to be something.
-  var publicRepos: Int
-  var pubblicGists: Int
-  var htmlUrl: String
-  var following: Int
-  var followers: Int
-  var createdAt: String
+  let publicRepos: Int
+  let publicGists: Int
+  let htmlUrl: String
+  let following: Int
+  let followers: Int
+  let createdAt: String
 }
 
 

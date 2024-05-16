@@ -27,6 +27,11 @@ class NetworkManager {
   // the new way, using enum Result
   // < > - indicates that it takes in a generic.
   // can use the default Error or our custom GFError.
+  
+  /*
+   @escaping:
+   closures are either escaping or non-escaping
+   */
     func getFollowers(for username: String, page: Int, completed: @escaping (Result<[Follower], GFError>) -> Void) {
     let endpoint = baseURL + "\(username)/followers?per_page=100&page=\(page)"
     
@@ -91,4 +96,54 @@ class NetworkManager {
     // this is what actually starts the network
     task.resume()
   }
+  
+  
+  func getUserInfo(for username: String, completed: @escaping (Result<User, GFError>) -> Void) {
+  let endpoint = baseURL + "\(username)"
+  
+  guard let url = URL(string: endpoint) else {
+    completed(.failure(.invalidUsername))
+    return
+  }
+  
+  let task = URLSession.shared.dataTask(with: url) { data, response, error in
+    
+    // handle error
+    if let _ = error {
+      completed(.failure(.unableToComplete))
+      return
+    }
+    
+    guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+      // nil for the array of followers.
+      completed(.failure(.unableToComplete))
+      return
+    }
+    
+    guard let data = data  else {
+      completed(.failure(.invalidData))
+      return
+    }
+    
+    // do-try-catch - this is a way to handle the errors
+    do {
+      /*
+       decoder: take the data from the server and decode it into our objects
+       encoder: take our object and convert it to a data.
+       codable protocol: the combination of encodable and decodable protocols.
+       */
+      let decoder = JSONDecoder()
+      decoder.keyDecodingStrategy = .convertFromSnakeCase
+      let user = try decoder.decode(User.self, from: data)
+      // nil - no error
+      completed(.success(user))
+    } catch {
+      completed(.failure(.invalidData))
+//        completed(nil, "The data receivedd from the server was invalid. Please try again.")
+    }
+  }
+  
+  // this is what actually starts the network
+  task.resume()
+}
 }
