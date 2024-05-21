@@ -12,6 +12,7 @@
 		751AA09B2BF3D91E0025EBB5 /* UserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 751AA09A2BF3D91E0025EBB5 /* UserInfoVC.swift */; };
 		752EE2522BF167B2001E0511 /* GFEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 752EE2512BF167B2001E0511 /* GFEmptyStateView.swift */; };
 		7539D1EC2BF966A600A84AEE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7539D1EB2BF966A600A84AEE /* Constants.swift */; };
+		754D82102BFD35CC00312268 /* GFItemInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 754D820F2BFD35CC00312268 /* GFItemInfoVC.swift */; };
 		7557FE7B2BD30E7500571377 /* FollowerListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7557FE7A2BD30E7500571377 /* FollowerListVC.swift */; };
 		755B8B7B2BCD8AD400EF3647 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755B8B7A2BCD8AD400EF3647 /* AppDelegate.swift */; };
 		755B8B7D2BCD8AD400EF3647 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 755B8B7C2BCD8AD400EF3647 /* SceneDelegate.swift */; };
@@ -42,6 +43,7 @@
 		751AA09A2BF3D91E0025EBB5 /* UserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoVC.swift; sourceTree = "<group>"; };
 		752EE2512BF167B2001E0511 /* GFEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFEmptyStateView.swift; sourceTree = "<group>"; };
 		7539D1EB2BF966A600A84AEE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		754D820F2BFD35CC00312268 /* GFItemInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GFItemInfoVC.swift; sourceTree = "<group>"; };
 		7557FE7A2BD30E7500571377 /* FollowerListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerListVC.swift; sourceTree = "<group>"; };
 		755B8B772BCD8AD400EF3647 /* GitHubFollowers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitHubFollowers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		755B8B7A2BCD8AD400EF3647 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 			children = (
 				756CEA122BD43EC600FAE87E /* GFAlertVC.swift */,
 				75CC585F2BF7E40A00977ACB /* GFUserInfoHeaderVC.swift */,
+				754D820F2BFD35CC00312268 /* GFItemInfoVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -330,6 +333,7 @@
 				75CC58602BF7E40A00977ACB /* GFUserInfoHeaderVC.swift in Sources */,
 				75CC585E2BF7E14F00977ACB /* GFSecondaryTitleLabel.swift in Sources */,
 				756CEA0F2BD4322A00FAE87E /* GFTitleLabel.swift in Sources */,
+				754D82102BFD35CC00312268 /* GFItemInfoVC.swift in Sources */,
 				755B8B7D2BCD8AD400EF3647 /* SceneDelegate.swift in Sources */,
 				7566E0CB2BEAA67800FB3F28 /* UIHelper.swift in Sources */,
 				759A4DCA2BDC74C8003568F4 /* NetworkManager.swift in Sources */,
