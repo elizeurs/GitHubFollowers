@@ -7,9 +7,13 @@
 
 import UIKit
 
-enum Section { case main }
+protocol FollowerListVCDelegate: AnyObject {
+  func didRequestFollowers(for username: String)
+}
 
 class FollowerListVC: UIViewController {
+  
+  enum Section { case main }
   
   var username: String!
   var followers: [Follower] = []
@@ -152,12 +156,13 @@ extension FollowerListVC: UICollectionViewDelegate {
   
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     // ternary operator - What ? True : False
-    let activeArray = isSearching ? filteredFollowers : followers
-    let follower = activeArray[indexPath.item]
+    let activeArray     = isSearching ? filteredFollowers : followers
+    let follower        = activeArray[indexPath.item]
     
-    let destVC = UserInfoVC()
-    destVC.username = follower.login
-    let navController = UINavigationController(rootViewController: destVC)
+    let destVC          = UserInfoVC()
+    destVC.username     = follower.login
+    destVC.delegate     = self
+    let navController   = UINavigationController(rootViewController: destVC)
     present(navController, animated: true)
   }
 }
@@ -180,5 +185,19 @@ extension FollowerListVC: UISearchResultsUpdating, UISearchBarDelegate {
 //    print("cancel tapped")
     updateData(on: followers)
   }
+}
+
+extension FollowerListVC: FollowerListVCDelegate {
   
+  func didRequestFollowers(for username: String) {
+    // get followers for that user
+    // we are basically resetting the page and then making the network call again.
+    self.username   = username
+    title           = username
+    page            = 1
+    followers.removeAll()
+    // .zero - go up to the top. scroll up to the top real quick, if it's not.
+    collectionView.setContentOffset(.zero, animated: true)
+    getFollowers(username: username, page: page)
+  }
 }

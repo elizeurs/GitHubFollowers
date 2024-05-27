@@ -7,6 +7,7 @@
 
 // import Foundation is already part of UIKit
 import UIKit
+import SafariServices
 
 /*
  extensions must not contain stored properties. so, we are going to make this global.
@@ -25,6 +26,12 @@ extension UIViewController {
       // self - we're in a closure here.
       self.present(alertVC, animated: true)
     }
+  }
+  
+  func presentSafariVC(with url: URL) {
+    let safariVC = SFSafariViewController(url: url)
+    safariVC.preferredControlTintColor = .systemGreen
+    present(safariVC, animated: true)
   }
   
   func showLoadingView() {

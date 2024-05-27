@@ -15,6 +15,8 @@ class GFItemInfoVC: UIViewController {
   let actionButton    = GFButton()
   
   var user: User!
+  // anytime you're dealing with the delegates, they need to be weak, so you can avoid the retain cycle.
+  weak var delegate: UserInfoVCDelegate!
   
   init(user: User) {
     super.init(nibName: nil, bundle: nil)
@@ -28,6 +30,7 @@ class GFItemInfoVC: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureBackgroundView()
+    configureActionButton()
     layoutUI()
     configureStackView()
   }
@@ -46,6 +49,13 @@ class GFItemInfoVC: UIViewController {
     stackView.addArrangedSubview(itemInfoViewTwo)
 
   }
+  
+  private func configureActionButton() {
+    actionButton.addTarget(self, action: #selector(actionButtonTapped), for: .touchUpInside)
+  }
+  
+  // it's just a stub.
+  @objc func actionButtonTapped() {}
   
   private func layoutUI() {
     view.addSubview(stackView)
