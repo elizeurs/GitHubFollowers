@@ -93,6 +93,7 @@ class FollowerListVC: UIViewController {
           // return - if we're showing the empty state view, we want to get out of here, like, we want nothing else to execute. we don't want to call updateData, if that happens.
           return
         }
+        
         self.updateData(on: self.followers)
         
 //        print(followers)
@@ -196,6 +197,7 @@ extension FollowerListVC: FollowerListVCDelegate {
     title           = username
     page            = 1
     followers.removeAll()
+    filteredFollowers.removeAll()
     // .zero - go up to the top. scroll up to the top real quick, if it's not.
     collectionView.setContentOffset(.zero, animated: true)
     getFollowers(username: username, page: page)

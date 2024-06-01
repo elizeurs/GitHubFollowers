@@ -45,8 +45,10 @@ class UserInfoVC: UIViewController {
       
       switch result {
       case .success(let user):
-        DispatchQueue.main.async { self.configureUIElements(with: user) }
-//        print(user)
+        DispatchQueue.main.async { self.configureUIElements(with: user)
+        //        print(user)
+        self.configureUIElements(with: user)
+      }
         
       case .failure(let error):
         self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
@@ -62,8 +64,8 @@ class UserInfoVC: UIViewController {
     let followerItemVC      = GFFollowerItemVC(user: user)
     followerItemVC.delegate = self
     
-    self.add(childVC: GFRepoItemVC(user: user), to: self.itemViewOne)
-    self.add(childVC: GFFollowerItemVC(user: user), to: self.itemViewTwo)
+    self.add(childVC: repoItemVC, to: self.itemViewOne)
+    self.add(childVC: followerItemVC, to: self.itemViewTwo)
     self.add(childVC: GFUserInfoHeaderVC(user: user), to: self.headerView)
     //          self.dateLabel.text = "Oct 13"
     //          self.dateLabel.text = user.createdAt
