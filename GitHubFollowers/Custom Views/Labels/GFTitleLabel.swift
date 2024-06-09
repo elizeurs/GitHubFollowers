@@ -9,6 +9,7 @@ import UIKit
 
 class GFTitleLabel: UILabel {
   
+  // designated initializer
   override init(frame: CGRect) {
     super.init(frame: frame)
     configure()
@@ -18,8 +19,9 @@ class GFTitleLabel: UILabel {
     fatalError("init(coder:) has not been implemented")
   }
   
-  init(textAlignment: NSTextAlignment, fontSize: CGFloat) {
-    super.init(frame: .zero)
+  // convenience initializer - no need to call configure() here as well.
+  convenience init(textAlignment: NSTextAlignment, fontSize: CGFloat) {
+    self.init(frame: .zero)
     self.textAlignment = textAlignment
     self.font = UIFont.systemFont(ofSize: fontSize, weight: .bold)
     configure()
