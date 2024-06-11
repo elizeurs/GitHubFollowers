@@ -21,6 +21,8 @@ class FollowerListVC: GFDataLoadingVC {
   var page = 1
   var hasMoreFollowers = true
   var isSearching = false
+  // prevent making a second call to the api, while scrolling and loading pagination.
+  var isLoadingMoreFollowers = false
   
   var collectionView: UICollectionView!
   var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
@@ -69,7 +71,6 @@ class FollowerListVC: GFDataLoadingVC {
   func configureSearchController() {
     let searchController                                    = UISearchController()
     searchController.searchResultsUpdater                   = self
-    searchController.searchBar.delegate                     = self
     searchController.searchBar.placeholder                  = "Search for a username"
     // to avoid that faint black overlay
     searchController.obscuresBackgroundDuringPresentation   = false
@@ -83,6 +84,7 @@ class FollowerListVC: GFDataLoadingVC {
      adding (?) will be the fix for this or unwrap the optional self (guard let self = self else {return).
      */
     showLoadingView()
+    isLoadingMoreFollowers = true
     NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] result in
       // use #warnig("") instead of to-dos, in order to come back and fix this.
       // #warning("Call Dismiss") - done already.
@@ -113,6 +115,8 @@ class FollowerListVC: GFDataLoadingVC {
       case .failure(let error):
         self.presentGFAlertOnMainThread(title: "Bad stuff happend", message: error.rawValue, buttonTitle: "Ok")
       }
+      
+      self.isLoadingMoreFollowers = false
     }
   }
   /*
@@ -186,7 +190,7 @@ extension FollowerListVC: UICollectionViewDelegate {
     let height = scrollView.frame.size.height
     
     if offsetY >  contentHeight - height {
-      guard hasMoreFollowers else { return }
+      guard hasMoreFollowers, !isLoadingMoreFollowers else { return }
       page += 1
       getFollowers(username: username, page: page)
     }
@@ -209,23 +213,23 @@ extension FollowerListVC: UICollectionViewDelegate {
   }
 }
 
-extension FollowerListVC: UISearchResultsUpdating, UISearchBarDelegate {
+extension FollowerListVC: UISearchResultsUpdating {
   
   func updateSearchResults(for searchController: UISearchController) {
     // whatever that text is, that is our filter.
-    guard let filter = searchController.searchBar.text, !filter.isEmpty else { return }
+    guard let filter = searchController.searchBar.text, !filter.isEmpty else {
+      filteredFollowers.removeAll()
+      // go back to our initial follower state, when you delete the first letter of a name.
+      updateData(on: followers)
+      isSearching = false
+      return
+    }
     isSearching = true
     /* filter/map/reduce.
     $0 - represents an item.
      */
     filteredFollowers = followers.filter { $0.login.lowercased().contains(filter.lowercased())}
     updateData(on: filteredFollowers)
-  }
-  
-  func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-    isSearching = false
-//    print("cancel tapped")
-    updateData(on: followers)
   }
 }
 
@@ -240,7 +244,9 @@ extension FollowerListVC: FollowerListVCDelegate {
     followers.removeAll()
     filteredFollowers.removeAll()
     // .zero - go up to the top. scroll up to the top real quick, if it's not.
-    collectionView.setContentOffset(.zero, animated: true)
+//    collectionView.setContentOffset(.zero, animated: true)
+    // correct bug when clicking on a follower, it takes you to the top of the list, but the first row is cut and showing only half.
+    collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
     getFollowers(username: username, page: page)
   }
 }
