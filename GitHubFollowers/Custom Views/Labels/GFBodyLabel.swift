@@ -24,12 +24,14 @@ class GFBodyLabel: UILabel {
   }
   
   private func configure() {
-    textColor                   = .secondaryLabel
-    font                        = UIFont.preferredFont(forTextStyle: .body)
-    adjustsFontSizeToFitWidth   = true
+    textColor                                 = .secondaryLabel
+    font                                      = UIFont.preferredFont(forTextStyle: .body)
+    // implement Dynamic type.
+    adjustsFontForContentSizeCategory         = true
+    adjustsFontSizeToFitWidth                 = true
     // 0.75 - 75%
-    minimumScaleFactor          = 0.75
-    lineBreakMode               = .byWordWrapping
+    minimumScaleFactor                        = 0.75
+    lineBreakMode                             = .byWordWrapping
     translatesAutoresizingMaskIntoConstraints = false
   }
 

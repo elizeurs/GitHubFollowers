@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol ItemInfoVCDelegate: AnyObject {
+  func didTapGitHubProfile(for user: User)
+  func didTapGetFollowers(for user: User)
+}
+
 class GFItemInfoVC: UIViewController {
   
   let stackView       = UIStackView()
@@ -15,8 +20,6 @@ class GFItemInfoVC: UIViewController {
   let actionButton    = GFButton()
   
   var user: User!
-  // anytime you're dealing with the delegates, they need to be weak, so you can avoid the retain cycle.
-  weak var delegate: UserInfoVCDelegate!
   
   init(user: User) {
     super.init(nibName: nil, bundle: nil)
@@ -58,8 +61,9 @@ class GFItemInfoVC: UIViewController {
   @objc func actionButtonTapped() {}
   
   private func layoutUI() {
-    view.addSubview(stackView)
-    view.addSubview(actionButton)
+//    view.addSubview(stackView)
+//    view.addSubview(actionButton)
+    view.addSubviews(stackView, actionButton)
     
     stackView.translatesAutoresizingMaskIntoConstraints = false
     let padding: CGFloat = 20
