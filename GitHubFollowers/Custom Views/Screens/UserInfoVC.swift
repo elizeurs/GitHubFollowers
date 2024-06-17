@@ -47,12 +47,12 @@ class UserInfoVC: GFDataLoadingVC {
     scrollView.addSubview(contentView)
 //    scrollView.translatesAutoresizingMaskIntoConstraints = false
 //    contentView.translatesAutoresizingMaskIntoConstraints = false
-    scrollView.pinToEdges(of: contentView)
-    scrollView.pinToEdges(of: scrollView)
+    scrollView.pinToEdges(of: view)
+    contentView.pinToEdges(of: scrollView)
     
     NSLayoutConstraint.activate([
       contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-      contentView.heightAnchor.constraint(equalToConstant: 2000)
+      contentView.heightAnchor.constraint(equalToConstant: 600)
     ])
   }
   
@@ -104,16 +104,16 @@ class UserInfoVC: GFDataLoadingVC {
     //    itemViewTwo.backgroundColor = .systemBlue
     
     NSLayoutConstraint.activate([
-      headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      headerView.topAnchor.constraint(equalTo: contentView.topAnchor),
       headerView.heightAnchor.constraint(equalToConstant: 210),
       
-      itemViewOne.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: padding),
+      itemViewOne.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: padding),
       itemViewOne.heightAnchor.constraint(equalToConstant: itemHeight),
       
-      itemViewTwo.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: padding),
+      itemViewTwo.topAnchor.constraint(equalTo: itemViewOne.bottomAnchor, constant: padding),
       itemViewTwo.heightAnchor.constraint(equalToConstant: itemHeight),
       
-      dateLabel.topAnchor.constraint(equalTo: contentView.bottomAnchor, constant: padding),
+      dateLabel.topAnchor.constraint(equalTo: itemViewTwo.bottomAnchor, constant: padding),
       dateLabel.heightAnchor.constraint(equalToConstant: 50)
     ])
   }
