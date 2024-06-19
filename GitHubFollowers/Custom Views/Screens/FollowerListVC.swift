@@ -12,13 +12,13 @@ class FollowerListVC: GFDataLoadingVC {
   enum Section { case main }
   
   var username: String!
-  var followers: [Follower] = []
-  var filteredFollowers: [Follower] = []
-  var page = 1
-  var hasMoreFollowers = true
-  var isSearching = false
+  var followers: [Follower]           = []
+  var filteredFollowers: [Follower]   = []
+  var page                            = 1
+  var hasMoreFollowers                = true
+  var isSearching                     = false
   // prevent making a second call to the api, while scrolling and loading pagination.
-  var isLoadingMoreFollowers = false
+  var isLoadingMoreFollowers          = false
   
   var collectionView: UICollectionView!
   var dataSource: UICollectionViewDiffableDataSource<Section, Follower>!
@@ -90,24 +90,7 @@ class FollowerListVC: GFDataLoadingVC {
       
       switch result {
       case .success(let followers):
-        if followers.count < 100 { self.hasMoreFollowers = false }
-        // so it keeps appending more followers to the list.
-        self.followers.append(contentsOf: followers)
-        
-        if self.followers.isEmpty {
-          let message = "This user doesn't have any followers. Go follow them 😀."
-          /*
-           self - we're in a closure.
-           we are on a background thread. anytime we're updating or presenting an UI, we have to go on the main queue here.
-          */
-          DispatchQueue.main.async { self.showEmptyStateView(with: message, in: self.view) }
-          // return - if we're showing the empty state view, we want to get out of here, like, we want nothing else to execute. we don't want to call updateData, if that happens.
-          return
-        }
-        
-        self.updateData(on: self.followers)
-        
-//        print(followers)
+        self.updateUI(with: followers)
       case .failure(let error):
         self.presentGFAlertOnMainThread(title: "Bad stuff happend", message: error.rawValue, buttonTitle: "Ok")
       }
@@ -127,6 +110,27 @@ class FollowerListVC: GFDataLoadingVC {
    print(followers)
    }
    */
+  
+  func updateUI(with followers: [Follower]) {
+    if followers.count < 100 { self.hasMoreFollowers = false }
+    // so it keeps appending more followers to the list.
+    self.followers.append(contentsOf: followers)
+    
+    if self.followers.isEmpty {
+      let message = "This user doesn't have any followers. Go follow them 😀."
+      /*
+       self - we're in a closure.
+       we are on a background thread. anytime we're updating or presenting an UI, we have to go on the main queue here.
+      */
+      DispatchQueue.main.async { self.showEmptyStateView(with: message, in: self.view) }
+      // return - if we're showing the empty state view, we want to get out of here, like, we want nothing else to execute. we don't want to call updateData, if that happens.
+      return
+    }
+    
+    self.updateData(on: self.followers)
+    
+//        print(followers)
+  }
   
   
   // MARK: UICollectionViewDiffableDataSource
@@ -158,21 +162,26 @@ class FollowerListVC: GFDataLoadingVC {
       
       switch result {
       case .success(let user):
-        let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+        self.addUserToFavorites(user: user)
         
-        PersistenceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
-          guard let self = self else { return }
-          
-          guard let error = error else {
-            self.presentGFAlertOnMainThread(title: "Success", message: "You have successfully favorited this user 🎉", buttonTitle: "Hooray!")
-            return
-          }
-          
-          self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
-        }
       case .failure(let error):
         self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
       }
+    }
+  }
+  
+  func addUserToFavorites(user: User) {
+    let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+    
+    PersistenceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] error in
+      guard let self = self else { return }
+      
+      guard let error = error else {
+        self.presentGFAlertOnMainThread(title: "Success", message: "You have successfully favorited this user 🎉", buttonTitle: "Hooray!")
+        return
+      }
+      
+      self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
     }
   }
 }
@@ -237,6 +246,7 @@ extension FollowerListVC: UserInfoVCDelegate {
     self.username   = username
     title           = username
     page            = 1
+    
     followers.removeAll()
     filteredFollowers.removeAll()
     // .zero - go up to the top. scroll up to the top real quick, if it's not.

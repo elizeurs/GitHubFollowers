@@ -12,8 +12,6 @@ class SearchVC: UIViewController {
   let logoImageView = UIImageView()
   let usernameTextField = GFTextField()
   let callToActionButton = GFButton(backgroundColor: .systemGreen, title: "Get Followers")
-  // This variable handles the layout for small iPhone screens, to prevent the keyboard from covering the text field area.
-  var logoImageViewTopConstraint: NSLayoutConstraint!
   
   var isUsernameEntered: Bool { return !usernameTextField.text!.isEmpty }
   
@@ -62,8 +60,6 @@ class SearchVC: UIViewController {
     
     // || - or
     let topConstraintConstant: CGFloat = DeviceTypes.isiPhoneSE || DeviceTypes.isiPhone8Zoomed ? 20 : 80
-    
-    logoImageViewTopConstraint = logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstraintConstant)
     
     NSLayoutConstraint.activate([
       logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),

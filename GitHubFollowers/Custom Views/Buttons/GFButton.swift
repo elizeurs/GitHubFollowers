@@ -29,9 +29,9 @@ class GFButton: UIButton {
   // private - this func can only be called in this class GFButton.
   private func configure() {
     layer.cornerRadius      = 10
-    setTitleColor(.white, for: .normal)
     // Dynamic Type - allow the user change font size on the phone. and for this, you use .preferreddFont(forTextStyle: UIFont.TextStyle).
     titleLabel?.font        = UIFont.preferredFont(forTextStyle: .headline)
+    setTitleColor(.white, for: .normal)
     // it allows you to use auto layout, when you're doing layout programmatically
     translatesAutoresizingMaskIntoConstraints = false
   }
