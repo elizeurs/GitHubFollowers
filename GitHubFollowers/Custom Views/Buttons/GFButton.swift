@@ -20,25 +20,38 @@ class GFButton: UIButton {
     fatalError("init(coder:) has not been implemented")
   }
   
-  convenience init(backgroundColor: UIColor, title: String) {
+  convenience init(color: UIColor, title: String, systemImageName: String) {
     self.init(frame: .zero)
-    self.backgroundColor = backgroundColor
-    self.setTitle(title, for: .normal)
+    set(color: color, title: title, systemImageName: systemImageName)
+//    self.backgroundColor = backgroundColor
+//    self.setTitle(title, for: .normal)
   }
   
   // private - this func can only be called in this class GFButton.
+  // Apple has proposed a new method for creating UIButtons.
   private func configure() {
-    layer.cornerRadius      = 10
-    // Dynamic Type - allow the user change font size on the phone. and for this, you use .preferreddFont(forTextStyle: UIFont.TextStyle).
-    titleLabel?.font        = UIFont.preferredFont(forTextStyle: .headline)
-    setTitleColor(.white, for: .normal)
-    // it allows you to use auto layout, when you're doing layout programmatically
+    configuration = .tinted()
+    configuration?.cornerStyle = .medium
     translatesAutoresizingMaskIntoConstraints = false
+//    layer.cornerRadius      = 10
+    // Dynamic Type - allow the user change font size on the phone. and for this, you use .preferreddFont(forTextStyle: UIFont.TextStyle).
+//    titleLabel?.font        = UIFont.preferredFont(forTextStyle: .headline)
+//    setTitleColor(.white, for: .normal)
+    // it allows you to use auto layout, when you're doing layout programmatically
+    // TAMIC
   }
   
-  func set(backroundColor: UIColor, title: String) {
-    self.backgroundColor = backroundColor
-    setTitle(title, for: .normal)
+  // Apple has proposed a new method for creating UIButtons.
+  func set(color: UIColor, title: String, systemImageName: String) {
+    configuration?.baseBackgroundColor = color
+    configuration?.baseForegroundColor = color
+    configuration?.title = title
+//    self.backgroundColor = backroundColor
+//    setTitle(title, for: .normal)
+    
+    configuration?.image = UIImage(systemName: systemImageName)
+    configuration?.imagePadding = 6
+    configuration?.imagePlacement = .leading
   }
   
 }
