@@ -73,31 +73,64 @@ class FollowerListVC: GFDataLoadingVC {
     navigationItem.searchController                         = searchController
   }
   
+  // new method: Async/Await
   func getFollowers(username: String, page: Int) {
-    // new way
-    /*ARC:
-     [weak self] - Make self weak and anytime we make self weak, it's gonna be an optional.
-     adding (?) will be the fix for this or unwrap the optional self (guard let self = self else {return).
-     */
     showLoadingView()
     isLoadingMoreFollowers = true
-    NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] result in
-      // use #warnig("") instead of to-dos, in order to come back and fix this.
-      // #warning("Call Dismiss") - done already.
-      // unwrapping the optional self
-      guard let self = self else { return }
-      self.dismissLoadingView()
-      
-      switch result {
-      case .success(let followers):
-        self.updateUI(with: followers)
-      case .failure(let error):
-        self.presentGFAlertOnMainThread(title: "Bad stuff happend", message: error.rawValue, buttonTitle: "Ok")
-      }
-      
-      self.isLoadingMoreFollowers = false
+
+    // Task - put you in a concurrency context.
+    Task {
+      do {
+        let followers = try await NetworkManager.shared.getFollowers(for: username, page: page)
+        updateUI(with: followers)
+        dismissLoadingView()
+      } catch {
+        // handle errors
+        if let gfError = error as? GFError {
+          presentGFAlert(title: "Bad Stuff Happend", message: gfError.rawValue, buttonTitle: "Ok")
+        } else {
+          presentDefaultError()
+        }
+
+      dismissLoadingView()
     }
+      
+      // when you don't care about a specific error.
+//      guard let followers = try? await NetworkManager.shared.getFollowers(for: username, page: page) else {
+//        presentDefaultError()
+//        dismissLoadingView()
+//        return
+//      }
+//
+//      updateUI(with: followers)
+//      dismissLoadingView()
   }
+  
+//  func getFollowers(username: String, page: Int) {
+//    // new way
+//    /*ARC:
+//     [weak self] - Make self weak and anytime we make self weak, it's gonna be an optional.
+//     adding (?) will be the fix for this or unwrap the optional self (guard let self = self else {return).
+//     */
+//    showLoadingView()
+//    isLoadingMoreFollowers = true
+//    NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] result in
+//      // use #warnig("") instead of to-dos, in order to come back and fix this.
+//      // #warning("Call Dismiss") - done already.
+//      // unwrapping the optional self
+//      guard let self = self else { return }
+//      self.dismissLoadingView()
+//
+//      switch result {
+//      case .success(let followers):
+//        self.updateUI(with: followers)
+//      case .failure(let error):
+//        self.presentGFAlertOnMainThread(title: "Bad stuff happend", message: error.rawValue, buttonTitle: "Ok")
+//      }
+//
+//      self.isLoadingMoreFollowers = false
+//    }
+//  }
   /*
    // old way:
    NetworkManager.shared.getFollowers(for: username, page: 1) { followers, errorMessage in
@@ -165,7 +198,7 @@ class FollowerListVC: GFDataLoadingVC {
         self.addUserToFavorites(user: user)
         
       case .failure(let error):
-        self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+        self.presentDefaultError(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
       }
     }
   }
@@ -177,11 +210,11 @@ class FollowerListVC: GFDataLoadingVC {
       guard let self = self else { return }
       
       guard let error = error else {
-        self.presentGFAlertOnMainThread(title: "Success", message: "You have successfully favorited this user 🎉", buttonTitle: "Hooray!")
+        self.presentDefaultError(title: "Success", message: "You have successfully favorited this user 🎉", buttonTitle: "Hooray!")
         return
       }
       
-      self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+      self.presentDefaultError(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
     }
   }
 }

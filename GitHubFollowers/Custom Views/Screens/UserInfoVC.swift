@@ -68,7 +68,7 @@ class UserInfoVC: GFDataLoadingVC {
         }
         
       case .failure(let error):
-        self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+        self.presentDefaultError(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
       }
     }
   }
@@ -136,7 +136,7 @@ extension UserInfoVC: GFRepoItemVCDelegate {
     // Show safari view controller
     //    print("My button was tapped!!!")
     guard let url = URL(string: user.htmlUrl) else {
-      presentGFAlertOnMainThread(title: "Invalid URL", message: "The url attached to this user is invalid.", buttonTitle: "Ok")
+      presentDefaultError(title: "Invalid URL", message: "The url attached to this user is invalid.", buttonTitle: "Ok")
       return
     }
     
@@ -150,7 +150,7 @@ extension UserInfoVC: GFFollowerItemVCDelegate {
     // dismissvc
     // tell follower list screen the new user
     guard user.followers != 0 else {
-      presentGFAlertOnMainThread(title: "No followers", message: "This user has no followers. What a shame 😞.", buttonTitle: "So sad")
+      presentDefaultError(title: "No followers", message: "This user has no followers. What a shame 😞.", buttonTitle: "So sad")
       return
     }
     
