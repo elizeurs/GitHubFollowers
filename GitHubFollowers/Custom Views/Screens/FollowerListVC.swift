@@ -77,7 +77,7 @@ class FollowerListVC: GFDataLoadingVC {
   func getFollowers(username: String, page: Int) {
     showLoadingView()
     isLoadingMoreFollowers = true
-
+    
     // Task - put you in a concurrency context.
     Task {
       do {
@@ -91,78 +91,79 @@ class FollowerListVC: GFDataLoadingVC {
         } else {
           presentDefaultError()
         }
-
-      dismissLoadingView()
-    }
+        
+        dismissLoadingView()
+      }
       
       // when you don't care about a specific error.
-//      guard let followers = try? await NetworkManager.shared.getFollowers(for: username, page: page) else {
-//        presentDefaultError()
-//        dismissLoadingView()
-//        return
-//      }
-//
-//      updateUI(with: followers)
-//      dismissLoadingView()
-  }
-  
-//  func getFollowers(username: String, page: Int) {
-//    // new way
-//    /*ARC:
-//     [weak self] - Make self weak and anytime we make self weak, it's gonna be an optional.
-//     adding (?) will be the fix for this or unwrap the optional self (guard let self = self else {return).
-//     */
-//    showLoadingView()
-//    isLoadingMoreFollowers = true
-//    NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] result in
-//      // use #warnig("") instead of to-dos, in order to come back and fix this.
-//      // #warning("Call Dismiss") - done already.
-//      // unwrapping the optional self
-//      guard let self = self else { return }
-//      self.dismissLoadingView()
-//
-//      switch result {
-//      case .success(let followers):
-//        self.updateUI(with: followers)
-//      case .failure(let error):
-//        self.presentGFAlertOnMainThread(title: "Bad stuff happend", message: error.rawValue, buttonTitle: "Ok")
-//      }
-//
-//      self.isLoadingMoreFollowers = false
-//    }
-//  }
-  /*
-   // old way:
-   NetworkManager.shared.getFollowers(for: username, page: 1) { followers, errorMessage in
-   guard let followers = followers else {
-   self.presentGFAlertOnMainThread(title: "Bad Stuff Happend", message: errorMessage!.rawValue, buttonTitle: "Ok")
-   return
-   }
-   
-   print("Followers.count = \(followers.count)")
-   print(followers)
-   }
-   */
-  
-  func updateUI(with followers: [Follower]) {
-    if followers.count < 100 { self.hasMoreFollowers = false }
-    // so it keeps appending more followers to the list.
-    self.followers.append(contentsOf: followers)
-    
-    if self.followers.isEmpty {
-      let message = "This user doesn't have any followers. Go follow them 😀."
-      /*
-       self - we're in a closure.
-       we are on a background thread. anytime we're updating or presenting an UI, we have to go on the main queue here.
-      */
-      DispatchQueue.main.async { self.showEmptyStateView(with: message, in: self.view) }
-      // return - if we're showing the empty state view, we want to get out of here, like, we want nothing else to execute. we don't want to call updateData, if that happens.
-      return
+      //      guard let followers = try? await NetworkManager.shared.getFollowers(for: username, page: page) else {
+      //        presentDefaultError()
+      //        dismissLoadingView()
+      //        return
+      //      }
+      //
+      //      updateUI(with: followers)
+      //      dismissLoadingView()
     }
     
-    self.updateData(on: self.followers)
+    //  func getFollowers(username: String, page: Int) {
+    //    // new way
+    //    /*ARC:
+    //     [weak self] - Make self weak and anytime we make self weak, it's gonna be an optional.
+    //     adding (?) will be the fix for this or unwrap the optional self (guard let self = self else {return).
+    //     */
+    //    showLoadingView()
+    //    isLoadingMoreFollowers = true
+    //    NetworkManager.shared.getFollowers(for: username, page: page) { [weak self] result in
+    //      // use #warnig("") instead of to-dos, in order to come back and fix this.
+    //      // #warning("Call Dismiss") - done already.
+    //      // unwrapping the optional self
+    //      guard let self = self else { return }
+    //      self.dismissLoadingView()
+    //
+    //      switch result {
+    //      case .success(let followers):
+    //        self.updateUI(with: followers)
+    //      case .failure(let error):
+    //        self.presentGFAlertOnMainThread(title: "Bad stuff happend", message: error.rawValue, buttonTitle: "Ok")
+    //      }
+    //
+    //      self.isLoadingMoreFollowers = false
+    //    }
+    //  }
+    /*
+     // old way:
+     NetworkManager.shared.getFollowers(for: username, page: 1) { followers, errorMessage in
+     guard let followers = followers else {
+     self.presentGFAlertOnMainThread(title: "Bad Stuff Happend", message: errorMessage!.rawValue, buttonTitle: "Ok")
+     return
+     }
+     
+     print("Followers.count = \(followers.count)")
+     print(followers)
+     }
+     */
     
-//        print(followers)
+    func updateUI(with followers: [Follower]) {
+      if followers.count < 100 { self.hasMoreFollowers = false }
+      // so it keeps appending more followers to the list.
+      self.followers.append(contentsOf: followers)
+      
+      if self.followers.isEmpty {
+        let message = "This user doesn't have any followers. Go follow them 😀."
+        /*
+         self - we're in a closure.
+         we are on a background thread. anytime we're updating or presenting an UI, we have to go on the main queue here.
+         */
+        DispatchQueue.main.async { self.showEmptyStateView(with: message, in: self.view) }
+        // return - if we're showing the empty state view, we want to get out of here, like, we want nothing else to execute. we don't want to call updateData, if that happens.
+        return
+      }
+      
+      self.updateData(on: self.followers)
+      
+      //        print(followers)
+    }
   }
   
   
@@ -184,24 +185,45 @@ class FollowerListVC: GFDataLoadingVC {
     DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
   }
   
-  @objc func addButtonTapped() {
-//    print("Add Button Tapped")
+//  @objc func addButtonTapped() {
+////    print("Add Button Tapped")
+//
+//    showLoadingView()
+//
+//    NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
+//      guard let self = self else { return }
+//      self.dismissLoadingView()
+//
+//      switch result {
+//      case .success(let user):
+//        self.addUserToFavorites(user: user)
+//
+//      case .failure(let error):
+//        self.presentDefaultError(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+//      }
+//    }
+//  }
     
-    showLoadingView()
-    
-    NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
-      guard let self = self else { return }
-      self.dismissLoadingView()
+    // new method async await
+    @objc func addButtonTapped() {
+      showLoadingView()
       
-      switch result {
-      case .success(let user):
-        self.addUserToFavorites(user: user)
-        
-      case .failure(let error):
-        self.presentDefaultError(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+      Task {
+        do {
+          let user = try await NetworkManager.shared.getUserInfo(for: username)
+          addUserToFavorites(user: user)
+          dismissLoadingView()
+        } catch {
+          if let gfError = error as? GFError {
+            presentGFAlert(title: "Something went wrong", message: gfError.rawValue, buttonTitle: "Ok")
+          } else {
+            presentDefaultError()
+          }
+          
+          dismissLoadingView()
+        }
       }
     }
-  }
   
   func addUserToFavorites(user: User) {
     let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
@@ -210,11 +232,16 @@ class FollowerListVC: GFDataLoadingVC {
       guard let self = self else { return }
       
       guard let error = error else {
-        self.presentDefaultError(title: "Success", message: "You have successfully favorited this user 🎉", buttonTitle: "Hooray!")
+        DispatchQueue.main.async {
+          self.presentGFAlert(title: "Success", message: "You have successfully favorited this user 🎉", buttonTitle: "Hooray!")
+        }
+        
         return
       }
       
-      self.presentDefaultError(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+      DispatchQueue.main.async {
+        self.presentGFAlert(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
+      }
     }
   }
 }
